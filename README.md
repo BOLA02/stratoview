@@ -169,6 +169,7 @@ Heavy focus on sustainability imagery, structural geology graphics, active minin
 * WhatsApp Business Integration Framework
 * Social Identity Feeds (LinkedIn, Instagram, Facebook, X)
 * B2B Email Marketing Platform API integration (e.g., Mailchimp or Brevo)
+* Google Maps Matrix Embed API
 
 ---
 
@@ -181,7 +182,7 @@ Heavy focus on sustainability imagery, structural geology graphics, active minin
 
 ---
 
-## 📞 Contact Information
+## 📞 Contact Info
 
 * **Phone:** 0707 012 6166
 * **Social Hubs:** [LinkedIn](#) | [Instagram](#) | [Facebook](#) | [X](#)
