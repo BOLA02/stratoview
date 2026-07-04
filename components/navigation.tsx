@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
+import {Logo} from "./ui/logo"
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
@@ -11,7 +12,7 @@ export default function Navigation() {
     <header className="fixed top-0 w-full bg-background/95 backdrop-blur border-b border-border z-50">
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         <Link href="/" className="font-bold text-2xl text-foreground">
-          SNL
+           <Logo className="h-12 w-auto" />
         </Link>
         
         <div className="hidden md:flex items-center gap-8">

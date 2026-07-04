@@ -1,6 +1,7 @@
 
 import type { Metadata, Viewport } from 'next'
 import { Geist_Mono, Lora } from 'next/font/google'
+import { SupportModal } from '@/components/support-modal'
 import './globals.css'
 
 const lora = Lora({ variable: '--font-geist-sans', subsets: ['latin'] })
@@ -49,6 +50,7 @@ export default function RootLayout({
     <html lang="en" className={`${lora.variable} ${geistMono.variable} bg-background light`}>
       <body className="font-sans antialiased text-foreground">
         {children}
+         <SupportModal />
         {process.env.NODE_ENV === 'production'}
       </body>
     </html>
