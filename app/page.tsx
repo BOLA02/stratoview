@@ -1,85 +1,265 @@
-import { ArrowRight, Leaf, MapPin, Zap, Users, Shield, BookOpen } from 'lucide-react'
+'use client'
+
+import { useState, useRef, useEffect } from 'react'
+import { ArrowRight, Leaf, MapPin, Zap, Users, Shield, BookOpen, ChevronDown } from 'lucide-react'
 import Navigation from '@/components/navigation'
 import Footer from '@/components/footer'
 import { ScrollAnimation } from '@/components/scroll-animation'
 import Link from 'next/link'
 
+// NOTE: place the uploaded video file in /public/videos/hero.mp4
+// and a still frame at /public/images/hero-poster.jpg (used while loading
+// and as the static fallback for prefers-reduced-motion).
+const HERO_VIDEO_SRC = '/videos/hero.mp4'
+const HERO_POSTER_SRC = '/images/hero-poster.png'
+
+function ContourPattern({
+  className = '',
+  opacity = 0.06,
+  color = 'currentColor',
+  flip = false,
+}: {
+  className?: string
+  opacity?: number
+  color?: string
+  flip?: boolean
+}) {
+  return (
+    <svg
+      viewBox="0 0 800 600"
+      preserveAspectRatio="xMidYMid slice"
+      className={`pointer-events-none absolute ${className}`}
+      style={{ opacity, color, transform: flip ? 'scaleX(-1)' : undefined }}
+      aria-hidden="true"
+    >
+      <g fill="none" stroke="currentColor" strokeWidth="2.5">
+        <path d="M -50 80 C 150 20, 250 140, 450 90 S 750 20, 900 80" />
+        <path d="M -50 150 C 150 90, 250 210, 450 160 S 750 90, 900 150" />
+        <path d="M -50 220 C 150 160, 250 280, 450 230 S 750 160, 900 220" />
+        <path d="M -50 290 C 150 230, 250 350, 450 300 S 750 230, 900 290" />
+        <path d="M -50 360 C 150 300, 250 420, 450 370 S 750 300, 900 360" />
+        <path d="M -50 430 C 150 370, 250 490, 450 440 S 750 370, 900 430" />
+        <path d="M -50 500 C 150 440, 250 560, 450 510 S 750 440, 900 500" />
+        <path d="M -50 570 C 150 510, 250 630, 450 580 S 750 510, 900 570" />
+      </g>
+    </svg>
+  )
+}
+
+function HeroSection() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const parallaxRef = useRef<HTMLDivElement>(null)
+  const [reducedMotion, setReducedMotion] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  // Respect prefers-reduced-motion: pause video, show poster only
+  useEffect(() => {
+    setMounted(true)
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const apply = () => setReducedMotion(mq.matches)
+    apply()
+    mq.addEventListener('change', apply)
+    return () => mq.removeEventListener('change', apply)
+  }, [])
+
+  useEffect(() => {
+    if (!videoRef.current) return
+    if (reducedMotion) {
+      videoRef.current.pause()
+    } else {
+      videoRef.current.play().catch(() => {})
+    }
+  }, [reducedMotion])
+
+  // Subtle parallax: background video shifts slower than scroll
+  useEffect(() => {
+    if (reducedMotion) return
+    let raf = 0
+    const onScroll = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        if (!parallaxRef.current) return
+        const y = window.scrollY
+        const offset = Math.min(y * 0.15, 80)
+        parallaxRef.current.style.transform = `translate3d(0, ${offset}px, 0) scale(1.06)`
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(raf)
+    }
+  }, [reducedMotion])
+
+  return (
+    <section
+      className="relative w-full h-screen min-h-[640px] flex items-center overflow-hidden"
+      style={{ background: '#0F1613' }}
+      aria-label="Hero"
+    >
+      {/* Background layer (video or poster, slow cinematic zoom) */}
+      <div
+        ref={parallaxRef}
+        className="absolute inset-0 will-change-transform"
+        style={{ transform: 'scale(1.06)' }}
+      >
+        {reducedMotion ? (
+          <img
+            src={HERO_POSTER_SRC}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            className="absolute inset-0 w-full h-full object-cover hero-video-zoom"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster={HERO_POSTER_SRC}
+            aria-hidden="true"
+          >
+            <source src={HERO_VIDEO_SRC} type="video/mp4" />
+          </video>
+        )}
+      </div>
+
+      {/* Cinematic gradient overlay: left readable, right showcases landscape */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(90deg, rgba(15,22,19,0.72) 0%, rgba(15,22,19,0.45) 50%, rgba(15,22,19,0.10) 100%)',
+        }}
+      />
+
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left column */}
+          <div
+            className={`max-w-[650px] transition-all duration-700 ease-out ${
+              mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            }`}
+          >
+            <h1
+              className="font-bold text-white mb-6"
+              style={{
+                fontFamily: "'Manrope', 'Inter', sans-serif",
+                fontSize: 'clamp(2.25rem, 5vw, 4rem)',
+                lineHeight: 1.1,
+                letterSpacing: '-0.02em',
+              }}
+            >
+              Understanding the Earth.
+              <br />
+              Enabling Sustainable Development.
+            </h1>
+
+            <p
+              className={`text-white/85 mb-10 max-w-[600px] transition-all duration-700 ease-out delay-150 ${
+                mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+              style={{
+                fontFamily: "'Manrope', 'Inter', sans-serif",
+                fontSize: 'clamp(1rem, 1.3vw, 1.15rem)',
+                lineHeight: 1.7,
+              }}
+            >
+              Stratoview Nigeria Limited delivers geoscience, environmental, hydrogeological,
+              GIS, and technical consulting services that help governments, industries, and
+              communities make confident, science-driven decisions.
+            </p>
+
+            <div
+              className={`flex flex-col sm:flex-row gap-4 transition-all duration-700 ease-out delay-300 ${
+                mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+            >
+              <Link
+                href="/contact"
+                className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg font-medium text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                style={{ backgroundColor: '#556B4F' }}
+              >
+                Request Consultation
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+
+              <Link
+                href="/resources"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg font-medium border border-white/40 text-white bg-white/10 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:text-[#0F1613] hover:border-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                Download Company Profile
+              </Link>
+            </div>
+          </div>
+
+          {/* Right column intentionally kept empty to showcase the landscape */}
+          <div className="hidden lg:block" aria-hidden="true" />
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/60">
+        <span
+          className="text-xs tracking-[0.2em] uppercase"
+          style={{ fontFamily: "'Manrope', 'Inter', sans-serif" }}
+        >
+          Scroll
+        </span>
+        <ChevronDown className="w-4 h-4 scroll-indicator-bounce" />
+      </div>
+
+      <style jsx>{`
+        @keyframes heroZoom {
+          0% {
+            transform: scale(1);
+          }
+          100% {
+            transform: scale(1.02);
+          }
+        }
+        .hero-video-zoom {
+          animation: heroZoom 24s ease-in-out infinite alternate;
+        }
+        @keyframes scrollBounce {
+          0%,
+          100% {
+            transform: translateY(0);
+            opacity: 0.6;
+          }
+          50% {
+            transform: translateY(6px);
+            opacity: 1;
+          }
+        }
+        .scroll-indicator-bounce {
+          animation: scrollBounce 2s ease-in-out infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-video-zoom,
+          .scroll-indicator-bounce {
+            animation: none;
+          }
+        }
+      `}</style>
+    </section>
+  )
+}
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-background">
       <Navigation />
-      
-      {/* Hero Section with Video */}
-      <section className="relative overflow-hidden min-h-screen flex items-center justify-center" style={{ background: '#1a1815' }}>
-        {/* Video Background */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ zIndex: 0 }}
-        >
-          <source src="https://videos.pexels.com/video-files/855992/855992-720.mp4" type="video/mp4" />
-          <source src="https://videos.pexels.com/video-files/855992/855992-720.webm" type="video/webm" />
-        </video>
 
-        {/* Overlay Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/70 via-primary/50 to-secondary/40" style={{ zIndex: 1 }} />
-        <div className="absolute inset-0 opacity-10 mix-blend-multiply pointer-events-none" style={{ zIndex: 1 }}>
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent rounded-full blur-3xl" />
-        </div>
-
-        {/* Content */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20" style={{ zIndex: 10, position: 'relative' }}>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <ScrollAnimation animation="fade-in-up" delay={0}>
-                <h1 className="text-5xl sm:text-6xl font-bold text-white mb-6 leading-tight text-balance">
-                  Geoscience, Environmental & Sustainability Solutions
-                </h1>
-              </ScrollAnimation>
-              <ScrollAnimation animation="fade-in-up" delay={100}>
-                <p className="text-xl text-white/90 mb-8 leading-relaxed">
-                  Helping organizations make informed decisions through innovative consulting, data-driven insights, and sustainable practices.
-                </p>
-              </ScrollAnimation>
-              <ScrollAnimation animation="fade-in-up" delay={200} className="flex gap-4 flex-wrap">
-                <Link href="/contact" className="inline-flex items-center px-6 py-3 bg-accent text-accent-foreground rounded-lg font-medium hover:opacity-90 hover:scale-105 transition shadow-lg">
-                  Request Consultation <ArrowRight className="ml-2 w-4 h-4" />
-                </Link>
-                <Link href="/resources" className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur border border-white/30 text-white rounded-lg font-medium hover:bg-white/30 transition shadow-lg">
-                  Download Profile
-                </Link>
-              </ScrollAnimation>
-            </div>
-
-            {/* Hero Image on Right (for larger screens) */}
-            <ScrollAnimation animation="slide-in-right" delay={200} className="relative h-96 hidden lg:block">
-              <div 
-                className="absolute inset-0 bg-card rounded-2xl border-2 border-white/30 shadow-2xl overflow-hidden hover:shadow-2xl hover:border-white/50 transition-all duration-300 backdrop-blur-sm bg-white/10"
-                style={{
-                  backgroundImage: 'url("https://images.unsplash.com/photo-1557821552-17105176677c?w=600&h=600&fit=crop")',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center'
-                }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/40 via-transparent to-transparent flex items-end justify-center pb-6">
-                  <div className="text-center text-white">
-                    <p className="font-semibold text-lg">Sustainable Development</p>
-                    <p className="text-sm opacity-90 mt-1">Environmental & Geoscience Expertise</p>
-                  </div>
-                </div>
-              </div>
-            </ScrollAnimation>
-          </div>
-        </div>
-      </section>
+      <HeroSection />
 
       {/* About Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-secondary/5">
-        <div className="max-w-6xl mx-auto">
+      <section className="relative overflow-hidden py-16 px-4 sm:px-6 lg:px-8 bg-secondary/5">
+        <ContourPattern className="inset-0 w-full h-full text-primary" opacity={0.05} />
+        <div className="relative max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-foreground mb-4">About Stratoview Nigeria</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -154,8 +334,9 @@ export default function Home() {
       </section>
 
       {/* Industries Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-card/50">
-        <div className="max-w-6xl mx-auto">
+      <section className="relative overflow-hidden py-16 px-4 sm:px-6 lg:px-8 bg-card/50">
+        <ContourPattern className="inset-0 w-full h-full text-secondary" opacity={0.05} flip />
+        <div className="relative max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-foreground mb-4">Industries Served</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -175,8 +356,9 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-primary to-secondary text-white">
-        <ScrollAnimation animation="fade-in-up" className="max-w-4xl mx-auto text-center">
+      <section className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-primary to-secondary text-white">
+        <ContourPattern className="inset-0 w-full h-full text-white" opacity={0.08} />
+        <ScrollAnimation animation="fade-in-up" className="relative max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-4">Ready to Work Together?</h2>
           <p className="text-xl mb-8 opacity-90">
             Get expert guidance for your next project or initiative

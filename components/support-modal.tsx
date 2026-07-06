@@ -65,23 +65,8 @@ export function SupportModal() {
                   <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 </div>
 
-                {/* Suggested Articles */}
-                <div className="mb-6">
-                  <p className="text-sm font-semibold text-muted-foreground mb-4">Suggested articles</p>
-                  <div className="space-y-3">
-                    {helpArticles.map((article, idx) => (
-                      <button
-                        key={idx}
-                        className="w-full text-left p-3 bg-secondary/5 hover:bg-secondary/10 rounded-lg transition flex items-start gap-3 group"
-                      >
-                        <span className="text-lg flex-shrink-0">{article.icon}</span>
-                        <span className="text-sm text-foreground group-hover:text-accent transition">
-                          {article.title}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
+            
+              
               </div>
 
               {/* Divider */}
