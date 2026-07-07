@@ -1,267 +1,183 @@
-'use client'
-
-import { useState } from 'react'
 import Navigation from '@/components/navigation'
 import Footer from '@/components/footer'
-import { Upload, Send } from 'lucide-react'
+import { Download, FileText, BookOpen, FileCheck, ShieldCheck, Layers } from 'lucide-react'
 
-export default function RequestProposal() {
-  const [formData, setFormData] = useState({
-    organizationName: '',
-    contactPerson: '',
-    email: '',
-    phone: '',
-    serviceRequired: '',
-    projectDescription: '',
-    budgetRange: '',
-    timeline: '',
-  })
-  const [fileName, setFileName] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+export const metadata = {
+  title: 'Resources & Downloads | Stratoview Nigeria',
+  description: 'Download company profile, brochures, and technical resources',
+}
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }))
-  }
+// Topographic contour pattern echoing the logo's wave lines — reused
+// across the site for a consistent decorative language.
+function ContourPattern({
+  className = '',
+  opacity = 0.06,
+  color = 'currentColor',
+  flip = false,
+}: {
+  className?: string
+  opacity?: number
+  color?: string
+  flip?: boolean
+}) {
+  return (
+    <svg
+      viewBox="0 0 800 600"
+      preserveAspectRatio="xMidYMid slice"
+      className={`pointer-events-none absolute ${className}`}
+      style={{ opacity, color, transform: flip ? 'scaleX(-1)' : undefined }}
+      aria-hidden="true"
+    >
+      <g fill="none" stroke="currentColor" strokeWidth="2.5">
+        <path d="M -50 80 C 150 20, 250 140, 450 90 S 750 20, 900 80" />
+        <path d="M -50 150 C 150 90, 250 210, 450 160 S 750 90, 900 150" />
+        <path d="M -50 220 C 150 160, 250 280, 450 230 S 750 160, 900 220" />
+        <path d="M -50 290 C 150 230, 250 350, 450 300 S 750 230, 900 290" />
+        <path d="M -50 360 C 150 300, 250 420, 450 370 S 750 300, 900 360" />
+        <path d="M -50 430 C 150 370, 250 490, 450 440 S 750 370, 900 430" />
+        <path d="M -50 500 C 150 440, 250 560, 450 510 S 750 440, 900 500" />
+        <path d="M -50 570 C 150 510, 250 630, 450 580 S 750 510, 900 570" />
+      </g>
+    </svg>
+  )
+}
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFileName(e.target.files[0].name)
-    }
-  }
+// Shared list-row for a downloadable document — replaces the old card grid.
+function DocumentRow({
+  icon: Icon,
+  title,
+  description,
+  accent = 'accent',
+}: {
+  icon: React.ElementType
+  title: string
+  description: string
+  accent?: 'accent' | 'secondary'
+}) {
+  const iconWrap =
+    accent === 'accent'
+      ? 'bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground'
+      : 'bg-secondary/10 text-secondary group-hover:bg-secondary group-hover:text-white'
+  const linkColor = accent === 'accent' ? 'text-accent' : 'text-secondary'
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log('Proposal request submitted:', formData)
-    setSubmitted(true)
-    setFileName('')
-    setFormData({
-      organizationName: '',
-      contactPerson: '',
-      email: '',
-      phone: '',
-      serviceRequired: '',
-      projectDescription: '',
-      budgetRange: '',
-      timeline: '',
-    })
-    setTimeout(() => setSubmitted(false), 5000)
-  }
+  return (
+    <div className="group flex flex-col sm:flex-row sm:items-center gap-4 py-6">
+      <div
+        className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-300 ${iconWrap}`}
+      >
+        <Icon className="w-5 h-5" />
+      </div>
+      <div className="flex-1">
+        <h3 className="text-lg font-semibold text-foreground group-hover:text-accent transition-colors">
+          {title}
+        </h3>
+        <p className="text-sm text-muted-foreground mt-1 max-w-xl">{description}</p>
+      </div>
+      <button
+        className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg border border-border font-medium text-sm ${linkColor} hover:border-accent hover:bg-accent/5 transition-colors shrink-0`}
+      >
+        <Download className="w-4 h-4" />
+        Download
+      </button>
+    </div>
+  )
+}
 
+export default function Resources() {
   return (
     <main className="min-h-screen bg-background">
       <Navigation />
-      
+
       {/* Hero */}
-      <section className="pt-32 pb-12 px-4 sm:px-6 lg:px-8 bg-secondary/5">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-5xl font-bold text-foreground mb-4">Request a Proposal</h1>
+      <section className="relative overflow-hidden pt-40 pb-24 px-4 sm:px-6 lg:px-8 bg-secondary/5">
+        <ContourPattern className="inset-0 w-full h-full text-primary" opacity={0.06} />
+        <div className="relative max-w-4xl mx-auto text-center">
+          <span className="inline-block text-xs font-semibold tracking-[0.25em] uppercase text-accent mb-4">
+            Downloads
+          </span>
+          <h1 className="text-5xl sm:text-6xl font-bold text-foreground mb-5 leading-tight">
+            Resources & Downloads
+          </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Tell us about your project and we&apos;ll prepare a customized proposal for your review
+            Access our company information, service brochures, and technical resources
           </p>
         </div>
       </section>
 
-      {/* Form Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-card border border-border rounded-xl p-8">
-            {submitted && (
-              <div className="mb-6 p-4 bg-accent/10 border border-accent text-accent rounded-lg">
-                ✓ Thank you! We have received your proposal request. Our team will review it and contact you shortly.
-              </div>
-            )}
+      {/* Resources — list layout, no cards */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Company Documents */}
+          <div className="mb-20">
+            <div className="flex items-center gap-3 mb-2">
+              <ShieldCheck className="w-6 h-6 text-accent" />
+              <h2 className="text-3xl font-bold text-foreground">Company Documents</h2>
+            </div>
+            <p className="text-muted-foreground mb-4">
+              Corporate profile, governance, and quality assurance documentation
+            </p>
+            <div className="divide-y divide-border border-t border-b border-border">
+              {companyDocuments.map((doc, idx) => (
+                <DocumentRow key={idx} icon={FileText} title={doc.title} description={doc.description} />
+              ))}
+            </div>
+          </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Organization Section */}
-              <div>
-                <h3 className="text-lg font-semibold text-foreground mb-4 pb-4 border-b border-border">Organization Details</h3>
-                
-                <div className="grid md:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">Organization Name *</label>
-                    <input
-                      type="text"
-                      name="organizationName"
-                      value={formData.organizationName}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                      placeholder="Your organization"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">Contact Person *</label>
-                    <input
-                      type="text"
-                      name="contactPerson"
-                      value={formData.contactPerson}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                      placeholder="Full name"
-                    />
-                  </div>
-                </div>
+          {/* Service Brochures */}
+          <div className="mb-20">
+            <div className="flex items-center gap-3 mb-2">
+              <BookOpen className="w-6 h-6 text-accent" />
+              <h2 className="text-3xl font-bold text-foreground">Service Brochures</h2>
+            </div>
+            <p className="text-muted-foreground mb-4">
+              In-depth guides to each of our core service lines
+            </p>
+            <div className="divide-y divide-border border-t border-b border-border">
+              {serviceBrochures.map((brochure, idx) => (
+                <DocumentRow key={idx} icon={FileCheck} title={brochure.title} description={brochure.description} />
+              ))}
+            </div>
+          </div>
 
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">Email *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                      placeholder="your@email.com"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">Phone *</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                      placeholder="Your phone number"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Project Section */}
-              <div>
-                <h3 className="text-lg font-semibold text-foreground mb-4 pb-4 border-b border-border">Project Details</h3>
-                
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-foreground mb-2">Service Required *</label>
-                  <select
-                    name="serviceRequired"
-                    value={formData.serviceRequired}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                  >
-                    <option value="">Select a service</option>
-                    <option value="environmental">Environmental Consulting</option>
-                    <option value="mineral">Mineral Exploration & Mining</option>
-                    <option value="geotechnical">Geotechnical Services</option>
-                    <option value="hydrogeology">Hydrogeology & Groundwater</option>
-                    <option value="gis">GIS & Spatial Intelligence</option>
-                    <option value="technical">Technical Advisory</option>
-                    <option value="other">Other / Multiple Services</option>
-                  </select>
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-foreground mb-2">Project Description *</label>
-                  <textarea
-                    name="projectDescription"
-                    value={formData.projectDescription}
-                    onChange={handleChange}
-                    required
-                    rows={5}
-                    className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent resize-none"
-                    placeholder="Describe your project, scope, and key requirements..."
-                  />
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">Budget Range</label>
-                    <select
-                      name="budgetRange"
-                      value={formData.budgetRange}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                    >
-                      <option value="">Select budget range</option>
-                      <option value="100k-500k">₦100k - ₦500k</option>
-                      <option value="500k-1m">₦500k - ₦1M</option>
-                      <option value="1m-5m">₦1M - ₦5M</option>
-                      <option value="5m-10m">₦5M - ₦10M</option>
-                      <option value="10m+">₦10M+</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">Timeline *</label>
-                    <select
-                      name="timeline"
-                      value={formData.timeline}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-                    >
-                      <option value="">Select timeline</option>
-                      <option value="immediate">Immediate (ASAP)</option>
-                      <option value="1-3months">1-3 months</option>
-                      <option value="3-6months">3-6 months</option>
-                      <option value="6-12months">6-12 months</option>
-                      <option value="flexible">Flexible</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              {/* Attachment */}
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Attach Terms of Reference / RFP
-                </label>
-                <div className="relative">
-                  <input
-                    type="file"
-                    onChange={handleFileChange}
-                    className="hidden"
-                    id="file-input"
-                    accept=".pdf,.doc,.docx,.xlsx,.xls"
-                  />
-                  <label
-                    htmlFor="file-input"
-                    className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-border rounded-lg hover:border-accent cursor-pointer transition"
-                  >
-                    <Upload className="w-5 h-5 text-accent" />
-                    <span className="text-foreground">
-                      {fileName || 'Click to upload or drag and drop'}
-                    </span>
-                  </label>
-                  <p className="text-xs text-muted-foreground mt-2">PDF, DOC, XLSX up to 10MB</p>
-                </div>
-              </div>
-
-              {/* Submit */}
-              <div className="pt-4 border-t border-border">
-                <button
-                  type="submit"
-                  className="w-full px-6 py-3 bg-accent text-accent-foreground rounded-lg font-medium hover:opacity-90 transition flex items-center justify-center gap-2"
-                >
-                  Submit Proposal Request <Send className="w-4 h-4" />
-                </button>
-                <p className="text-xs text-muted-foreground text-center mt-4">
-                  We&apos;ll review your request and contact you within 2-3 business days
-                </p>
-              </div>
-            </form>
+          {/* Technical Resources */}
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <Layers className="w-6 h-6 text-secondary" />
+              <h2 className="text-3xl font-bold text-foreground">Technical Resources</h2>
+            </div>
+            <p className="text-muted-foreground mb-4">
+              Standards, regulations, and methodology references for practitioners
+            </p>
+            <div className="divide-y divide-border border-t border-b border-border">
+              {technicalResources.map((resource, idx) => (
+                <DocumentRow
+                  key={idx}
+                  icon={FileText}
+                  title={resource.title}
+                  description={resource.description}
+                  accent="secondary"
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Info Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-secondary/5">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-foreground mb-8 text-center">What to Include in Your Request</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tips.map((tip, idx) => (
-              <div key={idx} className="bg-background p-6 rounded-xl border border-border">
-                <h3 className="font-semibold text-foreground mb-2">{tip.title}</h3>
-                <p className="text-sm text-muted-foreground">{tip.description}</p>
-              </div>
-            ))}
+      {/* CTA */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/5">
+        <div className="relative max-w-2xl mx-auto overflow-hidden bg-gradient-to-r from-primary to-secondary text-white rounded-2xl p-12 text-center">
+          <ContourPattern className="inset-0 w-full h-full text-white" opacity={0.08} />
+          <div className="relative">
+            <h2 className="text-3xl font-bold mb-4">Need Customized Information?</h2>
+            <p className="text-lg mb-8 opacity-90">
+              Contact us for tailored documentation or additional resources
+            </p>
+            <a
+              href="/contact"
+              className="inline-flex items-center px-8 py-3 bg-white text-foreground rounded-lg font-medium hover:opacity-90 hover:scale-105 transition-all"
+            >
+              Get In Touch
+            </a>
           </div>
         </div>
       </section>
@@ -271,29 +187,81 @@ export default function RequestProposal() {
   )
 }
 
-const tips = [
+const companyDocuments = [
   {
-    title: 'Project Scope',
-    description: 'Clear description of what you need and the expected outcomes'
+    title: 'Corporate Profile',
+    description: 'Comprehensive overview of Stratoview Nigeria Limited, our mission, vision, and core competencies',
+    file: 'corporate-profile.pdf'
   },
   {
-    title: 'Timeline',
-    description: 'When you need the project completed and any key milestones'
+    title: 'Capability Statement',
+    description: 'Summary of our technical capabilities and service offerings',
+    file: 'capability-statement.pdf'
   },
   {
-    title: 'Budget Information',
-    description: 'Your budget range helps us tailor the proposal'
+    title: 'Organizational Structure',
+    description: 'Details on our team, leadership, and organizational hierarchy',
+    file: 'org-structure.pdf'
   },
   {
-    title: 'Location Details',
-    description: 'Geographic details of project site or area of focus'
+    title: 'Quality Management',
+    description: 'Our quality assurance and management system documentation',
+    file: 'quality-management.pdf'
   },
   {
-    title: 'Key Requirements',
-    description: 'Specific requirements or deliverables you need'
+    title: 'Corporate Governance',
+    description: 'Governance policies and compliance framework',
+    file: 'governance.pdf'
   },
   {
-    title: 'Contact Information',
-    description: 'Ensure all contact details are correct for follow-up'
+    title: 'Safety & Compliance',
+    description: 'Health, safety, and environmental compliance procedures',
+    file: 'hse-compliance.pdf'
+  }
+]
+
+const serviceBrochures = [
+  {
+    title: 'Environmental Consulting Services',
+    description: 'Detailed overview of our environmental consulting and sustainability advisory services',
+    file: 'environmental-brochure.pdf'
+  },
+  {
+    title: 'Mineral Exploration & Mining Advisory',
+    description: 'Comprehensive guide to our mineral exploration and mining consultancy services',
+    file: 'mining-brochure.pdf'
+  },
+  {
+    title: 'Geotechnical & Engineering Services',
+    description: 'Information on our geotechnical investigations and engineering services',
+    file: 'geotechnical-brochure.pdf'
+  },
+  {
+    title: 'GIS & Spatial Intelligence',
+    description: 'Details on our GIS mapping and spatial analysis capabilities',
+    file: 'gis-brochure.pdf'
+  }
+]
+
+const technicalResources = [
+  {
+    title: 'Industry Standards & Best Practices',
+    description: 'Guidelines on industry standards we follow in our consulting work',
+    file: 'industry-standards.pdf'
+  },
+  {
+    title: 'Environmental Regulations Summary',
+    description: 'Overview of key environmental and mining regulations in Nigeria',
+    file: 'regulations-summary.pdf'
+  },
+  {
+    title: 'Geoscience Methodology Guide',
+    description: 'Technical documentation on our geoscience investigation methodologies',
+    file: 'methodology-guide.pdf'
+  },
+  {
+    title: 'Project Management Framework',
+    description: 'Our project delivery and management framework documentation',
+    file: 'pm-framework.pdf'
   }
 ]
