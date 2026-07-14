@@ -60,7 +60,7 @@ export function Logo({ className = '', showTagline = false, size = 'md' }: LogoP
         </div>
         <div>
           <p className={`${styles.company} font-semibold text-primary leading-tight`}>
-            STRATOVIEW
+            STRATOVIEW NIGERIA
           </p>
           <p className={`${styles.company} font-semibold text-primary leading-tight`}>
             LIMITED
