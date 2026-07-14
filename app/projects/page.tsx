@@ -1,6 +1,7 @@
 import Navigation from '@/components/navigation'
 import Footer from '@/components/footer'
 import { ScrollAnimation } from '@/components/scroll-animation'
+import { ProjectGallery } from '@/components/project-gallery'
 import { MapPin, Award, Users, TrendingUp, ArrowRight, Clock, CheckCircle2 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -115,15 +116,11 @@ export default function Projects() {
                 <ScrollAnimation key={idx} animation="fade-in-up" delay={idx * 60}>
                   <div className="bg-card border border-border rounded-2xl overflow-hidden hover:border-accent hover:shadow-lg transition-all duration-300">
                     <div className="grid md:grid-cols-3 gap-0">
-                      <div
-                        className="md:col-span-1 h-56 md:h-auto bg-cover bg-center relative overflow-hidden"
-                        style={{ backgroundImage: `url("${project.image}")` }}
-                      >
-                        <div className="h-full bg-gradient-to-t md:bg-gradient-to-r from-primary/60 via-primary/10 to-transparent" />
-                        <span className="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur text-primary rounded-full text-xs font-semibold">
-                          {project.status}
-                        </span>
-                      </div>
+                      <ProjectGallery
+                        images={project.images}
+                        status={project.status}
+                        title={project.title}
+                      />
                       <div className="md:col-span-2 p-8 grid sm:grid-cols-3 gap-6">
                         <div className="sm:col-span-2">
                           <div className="inline-block px-3 py-1 bg-accent/10 text-accent rounded-full text-sm font-medium mb-3">
@@ -239,25 +236,25 @@ const projectCategories = [
     name: 'Environmental Projects',
     desc: 'Environmental impact assessments, audits, and compliance',
     icon: MapPin,
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop'
+    image: '/images/photo_2026-07-14_06-56-26.jpg'
   },
   {
     name: 'Mining Projects',
     desc: 'Mineral exploration and mining feasibility studies',
     icon: TrendingUp,
-    image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&h=400&fit=crop'
+    image: '/images/IMG_3054.JPG'
   },
   {
     name: 'Infrastructure',
     desc: 'Geotechnical investigations and site assessments',
     icon: Award,
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&h=400&fit=crop'
+    image: '/images/IMG_3218.JPG'
   },
   {
     name: 'Water Resources',
     desc: 'Hydrogeological surveys and groundwater assessments',
     icon: Users,
-    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&h=400&fit=crop'
+    image: '/images/photo_2026-07-14_06-56-40.jpg'
   }
 ]
 
@@ -271,7 +268,14 @@ const projects = [
     duration: '8 months',
     teamSize: '5 specialists',
     status: 'Completed',
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop',
+    images: [
+      '/images/photo_2026-07-14_06-56-26.jpg',
+      '/images/photo_2026-07-14_06-56-32.jpg',
+      '/images/photo_2026-07-14_06-56-34.jpg',
+      '/images/photo_2026-07-14_06-56-36.jpg',
+      '/images/photo_2026-07-14_06-56-37.jpg',
+      '/images/photo_2026-07-14_06-56-39.jpg',
+    ],
     deliverables: [
       'EIA Report with baseline surveys',
       'Environmental Management Plan',
@@ -288,7 +292,14 @@ const projects = [
     duration: '12 months',
     teamSize: '8 specialists',
     status: 'Completed',
-    image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=600&fit=crop',
+    images: [
+      '/images/IMG_3054.JPG',
+      '/images/IMG_3218.JPG',
+      '/images/IMG_3602.JPG',
+      '/images/photo_2026-07-14_06-57-10.jpg',
+      '/images/photo_2026-07-14_06-57-12.jpg',
+      '/images/photo_2026-07-14_06-57-14.jpg',
+    ],
     deliverables: [
       'Geological mapping',
       'Resource estimation',
@@ -305,7 +316,15 @@ const projects = [
     duration: '4 months',
     teamSize: '4 specialists',
     status: 'Completed',
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop',
+    images: [
+      '/images/photo_2026-07-14_06-57-15.jpg',
+      '/images/photo_2026-07-14_06-57-17.jpg',
+      '/images/photo_2026-07-14_06-57-19.jpg',
+      '/images/photo_2026-07-14_06-57-21.jpg',
+      '/images/photo_2026-07-14_06-57-23.jpg',
+      '/images/photo_2026-07-14_06-57-25.jpg',
+      '/images/photo_2026-07-14_06-57-27.jpg',
+    ],
     deliverables: [
       'Borehole logs',
       'Laboratory test results',
@@ -322,7 +341,19 @@ const projects = [
     duration: '6 months',
     teamSize: '5 specialists',
     status: 'Completed',
-    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&h=600&fit=crop',
+    images: [
+      '/images/photo_2026-07-14_06-56-40.jpg',
+      '/images/photo_2026-07-14_06-56-42.jpg',
+      '/images/photo_2026-07-14_06-56-54.jpg',
+      '/images/photo_2026-07-14_06-57-29.jpg',
+      '/images/photo_2026-07-14_06-57-31.jpg',
+      '/images/photo_2026-07-14_06-57-40.jpg',
+      '/images/photo_2026-07-14_06-57-42.jpg',
+      '/images/photo_2026-07-14_06-57-45.jpg',
+      '/images/WhatsApp Image 2026-07-14 at 3.00.24 PM.jpeg',
+      '/images/WhatsApp Image 2026-07-143 at 3.00.25 PM.jpeg',
+      '/images/WhatsApp Image 2026-07-4 at 3.00.24 PM.jpeg',
+    ],
     deliverables: [
       'Hydrogeological report',
       'Borehole test data',

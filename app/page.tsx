@@ -46,6 +46,10 @@ function ContourPattern({
   )
 }
 
+
+
+
+
 function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const parallaxRef = useRef<HTMLDivElement>(null)
@@ -248,13 +252,12 @@ function HeroSection() {
     </section>
   )
 }
-
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background overflow-x-hidden">
       <Navigation />
-
       <HeroSection />
+      ...
 
       {/* About Section */}
       <section className="relative overflow-hidden py-16 px-4 sm:px-6 lg:px-8 bg-secondary/5">
@@ -385,42 +388,42 @@ const services = [
     description: 'EIA, environmental audits, monitoring, and compliance services',
     icon: Leaf,
     slug: 'environmental',
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=500&h=400&fit=crop'
+    image: '/images/photo_2026-07-14_06-56-26.jpg'
   },
   {
     title: 'Mineral Exploration',
     description: 'Geological mapping, resource evaluation, and mining advisory',
     icon: MapPin,
     slug: 'mineral',
-    image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=500&h=400&fit=crop'
+    image: '/images/IMG_3054.JPG'
   },
   {
     title: 'Geotechnical Services',
     description: 'Site investigations, soil testing, and foundation assessments',
     icon: Zap,
     slug: 'geotechnical',
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&h=400&fit=crop'
+    image: '/images/IMG_3218.JPG'
   },
   {
     title: 'Hydrogeology',
     description: 'Groundwater exploration, borehole siting, and assessments',
     icon: Leaf,
     slug: 'hydrogeology',
-    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=500&h=400&fit=crop'
+    image: '/images/photo_2026-07-14_06-56-40.jpg'
   },
   {
     title: 'GIS & Mapping',
     description: 'Spatial analysis, remote sensing, and environmental mapping',
     icon: MapPin,
     slug: 'gis',
-    image: 'https://images.unsplash.com/photo-1569163139394-de4798aa62b6?w=500&h=400&fit=crop'
+    image: '/images/WhatsApp Image 2026-07-14 at 3.00.24 PM.jpeg'
   },
   {
     title: 'Technical Advisory',
     description: 'Feasibility studies, project monitoring, and management support',
     icon: Users,
     slug: 'technical',
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=400&fit=crop'
+    image: '/images/IMG_3602.JPG'
   }
 ]
 

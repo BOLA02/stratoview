@@ -213,7 +213,7 @@ const servicesDetail = [
     description: 'Comprehensive environmental solutions to support your organization&apos;s sustainability goals and regulatory compliance.',
     icon: Leaf,
     slug: 'environmental',
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop',
+    image: '/images/photo_2026-07-14_06-56-26.jpg',
     features: [
       'Environmental Impact Assessment (EIA)',
       'Environmental Audits & Compliance Reviews',
@@ -229,7 +229,7 @@ const servicesDetail = [
     description: 'Expert guidance for exploration, assessment, and responsible mining operations across the continent.',
     icon: MapPin,
     slug: 'mineral',
-    image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=600&fit=crop',
+    image: '/images/IMG_3054.JPG',
     features: [
       'Mineral Exploration Planning & Execution',
       'Geological Mapping & Analysis',
@@ -245,7 +245,7 @@ const servicesDetail = [
     description: 'Detailed geotechnical assessments to ensure safe and effective infrastructure development.',
     icon: Zap,
     slug: 'geotechnical',
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop',
+    image: '/images/IMG_3218.JPG',
     features: [
       'Site Investigation & Characterization',
       'Soil Testing Coordination',
@@ -261,7 +261,7 @@ const servicesDetail = [
     description: 'Professional hydrogeological services for groundwater exploration, management, and protection.',
     icon: Leaf,
     slug: 'hydrogeology',
-    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&h=600&fit=crop',
+    image: '/images/photo_2026-07-14_06-56-40.jpg',
     features: [
       'Groundwater Exploration Surveys',
       'Borehole Siting & Design',
@@ -277,7 +277,7 @@ const servicesDetail = [
     description: 'Advanced spatial analysis and mapping solutions for informed decision-making.',
     icon: MapPin,
     slug: 'gis',
-    image: 'https://images.unsplash.com/photo-1569163139394-de4798aa62b6?w=800&h=600&fit=crop',
+    image: '/images/WhatsApp Image 2026-07-14 at 3.00.24 PM.jpeg',
     features: [
       'GIS Mapping & Analysis',
       'Remote Sensing Applications',
@@ -293,7 +293,7 @@ const servicesDetail = [
     description: 'Strategic guidance and technical expertise to optimize your projects and operations.',
     icon: Users,
     slug: 'technical',
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop',
+    image: '/images/IMG_3602.JPG',
     features: [
       'Feasibility Studies',
       'Technical Due Diligence',

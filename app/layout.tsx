@@ -47,12 +47,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${lora.variable} ${geistMono.variable} bg-background light`}>
-      <body className="font-sans antialiased text-foreground">
-        {children}
-         <SupportModal />
-        {process.env.NODE_ENV === 'production'}
-      </body>
-    </html>
-  )
+<html lang="en" className={`${lora.variable} ${geistMono.variable} bg-background light overflow-x-hidden`}>
+  <body className="font-sans antialiased text-foreground overflow-x-hidden">
+    {children}
+    <SupportModal />
+    {process.env.NODE_ENV === 'production'}
+  </body>
+</html>)
 }

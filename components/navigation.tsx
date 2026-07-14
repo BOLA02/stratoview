@@ -35,14 +35,14 @@ export default function Navigation() {
     href === '/' ? pathname === '/' : pathname?.startsWith(href)
 
   return (
-    <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-background/95 backdrop-blur border-b border-border shadow-sm'
-          : 'bg-background/70 backdrop-blur-sm border-b border-transparent'
-      }`}
-    >
-      <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+<header
+  className={`fixed top-0 w-full z-50 h-16 transition-all duration-300 ${
+    scrolled
+      ? 'bg-background/95 backdrop-blur border-b border-border shadow-sm'
+      : 'bg-background/70 backdrop-blur-sm border-b border-transparent'
+  }`}
+>
+  <nav className="h-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <Link href="/" className="font-bold text-2xl text-foreground shrink-0 py-2">
           <Logo className="h-11 w-auto transition-transform duration-300 hover:scale-105" />
         </Link>

@@ -54,7 +54,7 @@ export default function About() {
         className="relative pt-40 pb-24 px-4 sm:px-6 lg:px-8 bg-cover bg-center overflow-hidden"
         style={{
           backgroundImage:
-            'url("https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=600&fit=crop")',
+            'url("/images/IMG_3602.JPG")',
         }}
       >
         <div
@@ -212,8 +212,8 @@ export default function About() {
                 <div
                   className="h-80 bg-cover bg-center relative"
                   style={{
-                    backgroundImage:
-                      'url("https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=600&fit=crop")',
+                    // backgroundImage:
+                    //   'url("/images/WhatsApp Image 2026-07-194 at 3.00.24 PM.jpeg")',
                   }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/10 to-transparent" />
